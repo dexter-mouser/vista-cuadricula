@@ -25,31 +25,13 @@ function aplicarTransparencia(porcentaje) {
 
 controlFoto.addEventListener('input', () => aplicarTransparencia(Number(controlFoto.value)));
 
-// Transparencia predeterminada: la elegida con «Fijar» se guarda en localStorage
-const CLAVE_TRANSPARENCIA = 'vista-cuadricula:transparencia';
-
-function leerTransparenciaGuardada() {
-  try {
-    const guardada = localStorage.getItem(CLAVE_TRANSPARENCIA);
-    if (guardada === null) return TRANSPARENCIA_INICIAL;
-    const valor = Number(guardada);
-    return Number.isInteger(valor) && valor >= 0 && valor <= 100 ? valor : TRANSPARENCIA_INICIAL;
-  } catch {
-    return TRANSPARENCIA_INICIAL;
-  }
+// Botón para volver a la transparencia inicial (50 %)
+function restablecerTransparencia() {
+  controlFoto.value = String(TRANSPARENCIA_INICIAL);
+  aplicarTransparencia(TRANSPARENCIA_INICIAL);
 }
 
-function fijarTransparencia() {
-  const valor = Number(controlFoto.value);
-  try {
-    localStorage.setItem(CLAVE_TRANSPARENCIA, String(valor));
-    document.getElementById('avisoFoto').textContent = `Transparencia predeterminada: ${valor} %.`;
-  } catch {
-    document.getElementById('avisoFoto').textContent = 'No se pudo guardar la transparencia en este navegador.';
-  }
-}
-
-document.getElementById('botonFijarTransparencia').addEventListener('click', fijarTransparencia);
+document.getElementById('botonRestablecerTransparencia').addEventListener('click', restablecerTransparencia);
 
 // Ubica la foto completa, sin recortar, empezando sobre una línea del cuaderno
 function acomodarFoto() {
@@ -183,5 +165,4 @@ botonTema.addEventListener('click', () => {
 
 crearRegla(document.getElementById('reglaSuperior'), TOTAL_COLUMNAS);
 crearRegla(document.getElementById('reglaLateral'), TOTAL_FILAS);
-controlFoto.value = String(leerTransparenciaGuardada());
 aplicarTransparencia(Number(controlFoto.value));
