@@ -2,6 +2,8 @@
 
 Página para copiar a mano la foto de la vista desde una ventana en un cuaderno cuadriculado. Muestra una hoja con la misma cuadrícula del cuaderno (52 × 34 cuadros, con el cuaderno de lado) y la foto detrás, para copiarla cuadro por cuadro.
 
+**Página publicada:** https://dexter-mouser.github.io/vista-cuadricula/
+
 ## Cómo ejecutarlo
 
 Abre `index.html` en el navegador o sírvelo en local:
