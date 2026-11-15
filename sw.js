@@ -1,5 +1,5 @@
 // Service worker: guarda la app para usarla sin conexión
-const VERSION_CACHE = 'vista-cuadricula-v1';
+const VERSION_CACHE = 'vista-cuadricula-v2';
 const ARCHIVOS_APP = [
   './',
   'index.html',
