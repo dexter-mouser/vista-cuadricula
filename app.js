@@ -166,3 +166,8 @@ botonTema.addEventListener('click', () => {
 crearRegla(document.getElementById('reglaSuperior'), TOTAL_COLUMNAS);
 crearRegla(document.getElementById('reglaLateral'), TOTAL_FILAS);
 aplicarTransparencia(Number(controlFoto.value));
+
+// App instalable y sin conexión
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch((error) => console.error(error));
+}

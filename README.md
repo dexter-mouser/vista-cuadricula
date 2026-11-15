@@ -16,13 +16,18 @@ y entra a `http://localhost:5181`.
 
 El deslizador «Foto visible» ajusta cuánto se ve la foto detrás de la cuadrícula; «Restablecer 50 %» lo devuelve a la mitad. «Cambiar foto» abre tus archivos para usar otra foto, que queda guardada en el navegador. El botón de arriba a la derecha cambia entre tema claro y oscuro.
 
+**Instalar como app:** abre la página publicada en Chrome, Brave o Edge y usa «Instalar app» (en el móvil, «Agregar a la pantalla de inicio»). Después de abrirla una vez con internet, funciona sin conexión.
+
 ## Estructura
 
 ```
-index.html      Cabecera, hoja cuadriculada con la foto detrás, deslizador y botones «Restablecer 50 %» y «Cambiar foto»
-style.css       Colores y tema, hoja de papel reciclado, reglas y diseño responsive
-app.js          Reglas numeradas, transparencia, foto guardada y su posición, tema claro/oscuro
-img/vista.jpg   Foto por defecto (proporción 4:3)
+index.html             Cabecera, hoja cuadriculada con la foto detrás, deslizador y botones «Restablecer 50 %» y «Cambiar foto»
+style.css              Colores y tema, hoja de papel reciclado, reglas y diseño responsive
+app.js                 Reglas numeradas, transparencia, foto guardada y su posición, tema claro/oscuro y registro del service worker
+sw.js                  Service worker: guarda los archivos para usar la app sin conexión
+manifest.webmanifest   Nombre, colores e iconos de la app instalable
+icons/                 Icono en SVG y PNG (192, 512, maskable 512 y apple-touch 180)
+img/vista.jpg          Foto por defecto (proporción 4:3)
 ```
 
 ## Cómo funciona
@@ -36,3 +41,4 @@ img/vista.jpg   Foto por defecto (proporción 4:3)
 - **Tema:** los colores son variables CSS en `:root`; el tema oscuro las redefine con `data-theme="dark"` en `<html>`. Sin elección guardada se sigue el tema del sistema; la elección se guarda en `localStorage`.
 - **Libreta:** la hoja usa color de papel reciclado (`--hoja`) y es igual en los dos temas.
 - **Cambiar la foto por defecto:** reemplaza `img/vista.jpg`; se acomoda sola.
+- **Sin conexión:** `sw.js` guarda en caché los archivos de la app al instalarse. Con internet pide primero a la red (así se ven los cambios publicados) y actualiza la caché; sin internet usa lo guardado. Si agregas archivos, súmalos a `ARCHIVOS_APP` y sube `VERSION_CACHE` para borrar la caché vieja.
