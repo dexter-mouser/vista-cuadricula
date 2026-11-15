@@ -1,0 +1,354 @@
+/* Variables: tema claro */
+:root {
+  color-scheme: light;
+  --fondo: #efece3;
+  --superficie: #fdfbf5;
+  --texto: #222;
+  --texto-suave: #555;
+  --borde: #d6d1c4;
+  --acento: #1f5fbf;
+  --acento-hover: #17499a;
+  --acento-suave: #eaf1fb;
+  --texto-sobre-acento: #fff;
+  --foco: #f0a500;
+  --sombra: rgb(0 0 0 / 0.06);
+
+  /* Libreta de papel reciclado: igual en los dos temas */
+  --hoja: #e4dccb;
+  --hoja-borde: #c9bfa9;
+  --cuadricula: #b3c0c4;
+  --tinta-hoja: #3d3a33;
+  --tinta-hoja-suave: #6b6457;
+  --acento-hoja: #1f5fbf;
+
+  --cuadro: 20px;
+  --ancho-regla: 22px;
+  --columnas: 52;
+  --filas: 34;
+  /* Posición de la foto en cuadros (app.js la recalcula con cada foto) */
+  --foto-izquierda: 3;
+  --foto-arriba: 0;
+  --foto-ancho: 45.33;
+  --foto-alto: 34;
+}
+
+/* Variables: tema oscuro (del sistema o elegido con el botón) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --fondo: #17191c;
+    --superficie: #23262b;
+    --texto: #e8e6e1;
+    --texto-suave: #aaa69e;
+    --borde: #3a3d43;
+    --acento: #7aaeff;
+    --acento-hover: #a3c6ff;
+    --acento-suave: #1e2b3f;
+    --texto-sobre-acento: #0d1b2e;
+    --sombra: rgb(0 0 0 / 0.4);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --fondo: #17191c;
+  --superficie: #23262b;
+  --texto: #e8e6e1;
+  --texto-suave: #aaa69e;
+  --borde: #3a3d43;
+  --acento: #7aaeff;
+  --acento-hover: #a3c6ff;
+  --acento-suave: #1e2b3f;
+  --texto-sobre-acento: #0d1b2e;
+  --sombra: rgb(0 0 0 / 0.4);
+}
+
+/* CSS general */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.cabecera,
+.contenedor {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+.cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 24px 8px;
+}
+
+.cabecera h1 {
+  margin: 0 0 4px;
+  font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+  line-height: 1.2;
+}
+
+.cabecera p {
+  margin: 0;
+  color: var(--texto-suave);
+}
+
+.contenedor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  padding-block: 16px 32px;
+}
+
+/* Botón claro/oscuro */
+.boton-tema {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--texto);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.boton-tema svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.boton-tema:hover {
+  border-color: var(--acento);
+  color: var(--acento);
+}
+
+.boton-tema:active {
+  transform: translateY(1px);
+}
+
+/* Icono según el tema: luna en claro, sol en oscuro */
+.icono-sol {
+  display: none;
+}
+
+:root[data-theme='dark'] .icono-sol {
+  display: block;
+}
+
+:root[data-theme='dark'] .icono-luna {
+  display: none;
+}
+
+/* Hoja del cuaderno (papel reciclado) */
+.hoja {
+  color-scheme: light;
+  margin: 0;
+  justify-self: center;
+  max-width: 100%;
+  background: var(--hoja);
+  color: var(--tinta-hoja);
+  border: 1px solid var(--hoja-borde);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 8px var(--sombra);
+}
+
+/* En pantallas angostas la hoja se desplaza por dentro, no la página */
+.desplazable {
+  overflow-x: auto;
+}
+
+.hoja figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.hoja input[type='range'] {
+  width: min(240px, 60vw);
+  accent-color: var(--acento-hoja);
+  cursor: pointer;
+}
+
+/* Botón para elegir otra foto */
+.boton-foto {
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 2px solid var(--acento-hoja);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--acento-hoja);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton-foto:hover {
+  background: rgb(31 95 191 / 0.1);
+}
+
+.boton-foto:active {
+  transform: translateY(1px);
+}
+
+.aviso-foto {
+  flex-basis: 100%;
+  margin: 0;
+  text-align: center;
+  color: var(--tinta-hoja-suave);
+}
+
+.aviso-foto:empty {
+  display: none;
+}
+
+.hoja input[type='range']:focus-visible,
+.boton-foto:focus-visible,
+.boton-tema:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.hoja output {
+  min-width: 4ch;
+  font-variant-numeric: tabular-nums;
+}
+
+.tablero {
+  display: grid;
+  grid-template-columns: var(--ancho-regla) auto;
+  grid-template-rows: var(--ancho-regla) auto;
+  width: max-content;
+}
+
+/* Reglas con el número de cada columna y fila */
+.regla {
+  display: grid;
+  font-size: clamp(6px, calc(var(--cuadro) * 0.5), 11px);
+  color: var(--tinta-hoja-suave);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+
+.regla span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.regla--superior {
+  grid-column: 2;
+  grid-template-columns: repeat(var(--columnas), var(--cuadro));
+}
+
+.regla--lateral {
+  grid-column: 1;
+  grid-row: 2;
+  grid-template-rows: repeat(var(--filas), var(--cuadro));
+}
+
+/* Cuadrícula encima de la foto */
+.lienzo {
+  position: relative;
+  grid-column: 2;
+  grid-row: 2;
+  width: calc(var(--columnas) * var(--cuadro));
+  height: calc(var(--filas) * var(--cuadro));
+  overflow: hidden;
+}
+
+.lienzo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--cuadricula) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cuadricula) 1px, transparent 1px);
+  background-size: var(--cuadro) var(--cuadro);
+  border-right: 1px solid var(--cuadricula);
+  border-bottom: 1px solid var(--cuadricula);
+}
+
+/* Foto detrás: completa, sin recortar, alineada a las líneas del cuaderno */
+.foto-fondo {
+  position: absolute;
+  top: calc(var(--foto-arriba) * var(--cuadro));
+  left: calc(var(--foto-izquierda) * var(--cuadro));
+  width: calc(var(--foto-ancho) * var(--cuadro));
+  max-width: none;
+  height: calc(var(--foto-alto) * var(--cuadro));
+  opacity: var(--opacidad-foto, 0.5);
+}
+
+/* Móvil: cuadros pequeños; si no caben, la hoja se desplaza */
+@media (max-width: 767px) {
+  :root {
+    --ancho-regla: 16px;
+    --cuadro: 8px;
+  }
+
+  .hoja {
+    padding: 6px;
+  }
+
+  /* En móvil el botón de tema muestra solo el icono */
+  .boton-tema__texto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Tableta */
+@media (min-width: 768px) {
+  :root {
+    --cuadro: 13px;
+  }
+}
+
+/* Escritorio */
+@media (min-width: 1200px) {
+  :root {
+    --cuadro: 20px;
+  }
+}
